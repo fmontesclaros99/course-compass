@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F198748E-3086-A509-312C-8782698CEDF4}|CourseCompass.Api\\CourseCompass.Api.csproj|c:\\users\\fmari\\repos\\course-compass\\backend\\coursecompass.api\\services\\coursereportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F198748E-3086-A509-312C-8782698CEDF4}|CourseCompass.Api\\CourseCompass.Api.csproj|solutionrelative:coursecompass.api\\services\\coursereportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F198748E-3086-A509-312C-8782698CEDF4}|CourseCompass.Api\\CourseCompass.Api.csproj|c:\\users\\fmari\\repos\\course-compass\\backend\\coursecompass.api\\coursecompass.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F198748E-3086-A509-312C-8782698CEDF4}|CourseCompass.Api\\CourseCompass.Api.csproj|solutionrelative:coursecompass.api\\coursecompass.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F198748E-3086-A509-312C-8782698CEDF4}|CourseCompass.Api\\CourseCompass.Api.csproj|c:\\users\\fmari\\repos\\course-compass\\backend\\coursecompass.api\\controllers\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F198748E-3086-A509-312C-8782698CEDF4}|CourseCompass.Api\\CourseCompass.Api.csproj|solutionrelative:coursecompass.api\\controllers\\coursescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CourseReportService.cs",
+              "DocumentMoniker": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\CourseCompass.Api\\Services\\CourseReportService.cs",
+              "RelativeDocumentMoniker": "CourseCompass.Api\\Services\\CourseReportService.cs",
+              "ToolTip": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\CourseCompass.Api\\Services\\CourseReportService.cs",
+              "RelativeToolTip": "CourseCompass.Api\\Services\\CourseReportService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T09:29:02.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CourseCompass.Api",
+              "DocumentMoniker": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\CourseCompass.Api\\CourseCompass.Api.csproj",
+              "RelativeDocumentMoniker": "CourseCompass.Api\\CourseCompass.Api.csproj",
+              "ToolTip": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\CourseCompass.Api\\CourseCompass.Api.csproj",
+              "RelativeToolTip": "CourseCompass.Api\\CourseCompass.Api.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-08-19T09:28:05.28Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CoursesController.cs",
+              "DocumentMoniker": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\CourseCompass.Api\\Controllers\\CoursesController.cs",
+              "RelativeDocumentMoniker": "CourseCompass.Api\\Controllers\\CoursesController.cs",
+              "ToolTip": "C:\\Users\\fmari\\Repos\\course-compass\\backend\\CourseCompass.Api\\Controllers\\CoursesController.cs",
+              "RelativeToolTip": "CourseCompass.Api\\Controllers\\CoursesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-19T09:27:31.467Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
