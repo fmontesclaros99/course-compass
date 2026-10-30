@@ -4,7 +4,7 @@
 
 ## Short answer
 
-The legacy file had six runtime conditionals. Two of them are gone, because the types now make the bad case impossible to write. One is still there, but the compiler forces it, so I can't forget it. The other three stay on purpose, because they depend on data the compiler can't see.
+The legacy file had six runtime conditionals. Two of them are replaced by types that make the bad case impossible to write. One is still there, but the compiler forces it, so I can't forget it. The other three stay on purpose, because they depend on data the compiler can't see. All of this rests on removing `any`: the file now has none, and ESLint's `no-explicit-any` rule checks that in CI.
 
 | # | Legacy conditional | Verdict | What does the work now |
 |---|---|---|---|
