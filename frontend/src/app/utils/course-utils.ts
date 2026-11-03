@@ -1,4 +1,5 @@
 import { CourseLevel, Course, CourseFilter } from "../models/course.model";
+import { findById, groupBy } from "./collection-utils";
 
 export const COURSE_LEVEL_LABELS: Readonly<Record<CourseLevel, string>> = {
   beginner: 'Beginner',
@@ -25,23 +26,12 @@ export function totalDuration(courses: readonly Course[]): number {
   return courses.reduce((total, course) => total + course.durationMins, 0);
 }
 
-export function groupByCategory(courses: readonly Course[]): Record<string, Course[]> {
-  const groups: Record<string, Course[]> = {};
-
-  for (const course of courses) {
-    const group = groups[course.category];
-    if (group) {
-      group.push(course);
-    } else {
-      groups[course.category] = [course];
-    }
-  }
-
-  return groups;
+export function groupByCategory(courses: readonly Course[]): Partial<Record<string, Course[]>> {
+  return groupBy(courses, (course) => course.category);
 }
 
 export function getCourseOrThrow(courses: readonly Course[], id: Course['id']): Course {
-  const found = courses.find((course) => course.id === id);
+  const found = findById(courses, id);
   if (found === undefined) {
     throw new Error(`Course not found: ${id}`);
   }

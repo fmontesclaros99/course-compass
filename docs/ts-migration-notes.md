@@ -29,7 +29,7 @@ The old code used `==` for `id` and `level`, which quietly converts types before
 
 **3. The missing-group check (enforced, not removed)**
 
-This check is still in `groupByCategory`, but it's no longer something I have to remember. With `noUncheckedIndexedAccess`, `groups[course.category]` is typed as `Course[] | undefined`, which is the truth: the group might not exist yet. Calling `.push()` on it without the `if (group)` guard doesn't compile. Before, forgetting this check meant a runtime crash. Now, skipping it is impossible.
+This check is still there, but it's no longer something I have to remember. Since Day 3 it lives in the generic `groupBy` helper that `groupByCategory` calls. With `noUncheckedIndexedAccess`, `groups[key]` is typed as `T[] | undefined`, which is the truth: the group might not exist yet. Calling `.push()` on it without the `if (group)` guard doesn't compile. Before, forgetting this check meant a runtime crash. Now, skipping it is impossible.
 
 To me, this is the most useful part of the flag. It doesn't remove the check; it makes leaving it out a compile error.
 
