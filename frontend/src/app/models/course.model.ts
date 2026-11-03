@@ -1,4 +1,10 @@
-export type CourseLevel = 'beginner' | 'intermediate' | 'advanced';
+import type { ElementOf } from '../utils/type-utils';
+
+/** Every valid level, in display order. The CourseLevel type is derived from this list. */
+export const COURSE_LEVELS = ['beginner', 'intermediate', 'advanced'] as const;
+
+/** Difficulty levels used by the course data (db.json). */
+export type CourseLevel = ElementOf<typeof COURSE_LEVELS>;
 
 export interface Course {
   readonly id: string;
