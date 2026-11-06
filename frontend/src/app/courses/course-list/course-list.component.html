@@ -1,0 +1,14 @@
+@if (courses().length === 0) {
+  <p>No courses found.</p>
+} @else {
+  <ul aria-label="Courses">
+    @for (course of courses(); track course.id) {
+      <li>
+        <button type="button" (click)="selected.emit(course.id)">
+          <span>{{ course.title }}</span>
+          <span>{{ levelLabel(course.level) }} · {{ course.durationMins }} min</span>
+        </button>
+      </li>
+    }
+  </ul>
+}
