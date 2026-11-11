@@ -1,0 +1,31 @@
+<section class="space-y-4">
+  <a routerLink="/" class="text-sm text-blue-700 underline">← Back to search</a>
+
+  @let current = state();
+  @if (current.status === 'loading') {
+    <p role="status">Loading course…</p>
+  } @else if (current.status === 'error') {
+    <p role="alert" class="text-red-700">
+      {{ current.error.kind === 'not-found' ? 'Course not found.' : current.error.message }}
+    </p>
+  } @else if (current.status === 'success') {
+    <article class="space-y-3">
+      <h2 class="text-xl font-semibold">{{ current.data.title }}</h2>
+      <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+        <dt class="font-medium">Level</dt>
+        <dd>{{ levelLabel(current.data.level) }}</dd>
+        <dt class="font-medium">Duration</dt>
+        <dd>{{ current.data.durationMins }} min</dd>
+        <dt class="font-medium">Author</dt>
+        <dd>{{ current.data.author }}</dd>
+        <dt class="font-medium">Category</dt>
+        <dd>{{ current.data.category }}</dd>
+      </dl>
+      <ul aria-label="Tags" class="flex flex-wrap gap-2">
+        @for (tag of current.data.tags; track tag) {
+          <li class="rounded bg-gray-100 px-2 py-0.5 text-xs">{{ tag }}</li>
+        }
+      </ul>
+    </article>
+  }
+</section>
