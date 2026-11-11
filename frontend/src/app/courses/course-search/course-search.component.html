@@ -1,0 +1,40 @@
+<section class="space-y-4">
+  <h2 class="text-xl font-semibold">Find a course</h2>
+
+  <div class="flex flex-wrap gap-4">
+    <label class="flex flex-col gap-1 text-sm font-medium">
+      Search
+      <input
+        #search
+        type="search"
+        class="rounded border border-gray-300 px-2 py-1 font-normal"
+        placeholder="Title contains…"
+        [value]="text()"
+        (input)="text.set(search.value)"
+      />
+    </label>
+
+    <label class="flex flex-col gap-1 text-sm font-medium">
+      Level
+      <select
+        #levelSelect
+        class="rounded border border-gray-300 px-2 py-1 font-normal"
+        (change)="onLevelChange(levelSelect.value)"
+      >
+        <option value="">All levels</option>
+        @for (option of levels; track option) {
+          <option [value]="option">{{ levelLabel(option) }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  @let current = state();
+  @if (current.status === 'loading') {
+    <p role="status">Loading courses…</p>
+  } @else if (current.status === 'error') {
+    <p role="alert" class="text-red-700">{{ current.error.message }}</p>
+  } @else {
+    <app-course-list class="block" [courses]="results()" (selected)="openCourse($event)" />
+  }
+</section>
