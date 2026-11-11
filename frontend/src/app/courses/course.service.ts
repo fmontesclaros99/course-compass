@@ -17,4 +17,9 @@ export class CourseService {
   getCourses(): Observable<Course[]> {
     return this.http.get<CourseDto[]>(COURSES_API_URL);
   }
+
+  /** GET /courses/{id} */
+  getCourse(id: Course['id']): Observable<Course> {
+    return this.http.get<CourseDto>(`${COURSES_API_URL}/${encodeURIComponent(id)}`);
+  }
 }
