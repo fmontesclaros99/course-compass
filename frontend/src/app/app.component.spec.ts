@@ -6,6 +6,6 @@ describe('AppComponent', () => {
   it('renders the CourseCompass heading', async () => {
     await render(AppComponent);
 
-    expect(screen.getByRole('heading', { level: 1, name: 'Hello, CourseCompass' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'CourseCompass' })).toBeInTheDocument();
   });
 });
