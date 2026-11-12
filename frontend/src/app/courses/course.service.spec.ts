@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
 import { SEED_COURSES } from '../testing/seed-courses';
+import { getCourseOrThrow } from '../utils/course-utils';
 import { COURSES_API_URL, CourseService } from './course.service';
 
 describe('CourseService', () => {
@@ -31,6 +32,17 @@ describe('CourseService', () => {
     request.flush(SEED_COURSES);
 
     expect(await courses).toEqual(SEED_COURSES);
+  });
+
+  it('gets one course from GET /courses/{id}', async () => {
+    const expected = getCourseOrThrow(SEED_COURSES, 'c-106');
+    const course = firstValueFrom(service.getCourse('c-106'));
+
+    const request = httpTesting.expectOne(`${COURSES_API_URL}/c-106`);
+    expect(request.request.method).toBe('GET');
+    request.flush(expected);
+
+    expect(await course).toEqual(expected);
   });
 
   it('passes an HTTP error on to the caller', async () => {
