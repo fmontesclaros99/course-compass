@@ -1,13 +1,13 @@
-<section class="space-y-4">
+<section class="space-y-6">
   <h2 class="text-xl font-semibold">Find a course</h2>
 
-  <div class="flex flex-wrap gap-4">
+  <div class="grid gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:grid-cols-[1fr_12rem]">
     <label class="flex flex-col gap-1 text-sm font-medium">
       Search
       <input
         #search
         type="search"
-        class="rounded border border-gray-300 px-2 py-1 font-normal"
+        class="rounded-md border border-gray-300 px-3 py-2 font-normal focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
         placeholder="Title contains…"
         [value]="text()"
         (input)="text.set(search.value)"
@@ -18,7 +18,7 @@
       Level
       <select
         #levelSelect
-        class="rounded border border-gray-300 px-2 py-1 font-normal"
+        class="rounded-md border border-gray-300 bg-white px-3 py-2 font-normal focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
         (change)="onLevelChange(levelSelect.value)"
       >
         <option value="">All levels</option>
@@ -31,9 +31,11 @@
 
   @let current = state();
   @if (current.status === 'loading') {
-    <p role="status">Loading courses…</p>
+    <p role="status" class="text-gray-600">Loading courses…</p>
   } @else if (current.status === 'error') {
-    <p role="alert" class="text-red-700">{{ current.error.message }}</p>
+    <p role="alert" class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+      {{ current.error.message }}
+    </p>
   } @else {
     <app-course-list class="block" [courses]="results()" (selected)="openCourse($event)" />
   }

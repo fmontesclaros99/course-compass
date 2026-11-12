@@ -1,15 +1,17 @@
 @if (courses().length === 0) {
-  <p>No courses found.</p>
+  <p class="rounded-lg border border-dashed border-gray-300 bg-white px-4 py-8 text-center text-gray-600">
+    No courses found.
+  </p>
 } @else {
-  <ul aria-label="Courses" class="divide-y divide-gray-200 rounded border border-gray-200">
+  <ul aria-label="Courses" class="space-y-3">
     @for (course of courses(); track course.id) {
       <li>
         <button
           type="button"
-          class="flex w-full flex-col items-start gap-0.5 px-4 py-3 text-left hover:bg-gray-50"
+          class="flex w-full flex-col items-start gap-1 rounded-lg border border-gray-200 bg-white px-4 py-3 text-left shadow-sm transition hover:border-blue-300 hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           (click)="selected.emit(course.id)"
         >
-          <span class="font-medium">{{ course.title }}</span>
+          <span class="font-medium text-gray-900">{{ course.title }}</span>
           <span class="text-sm text-gray-600">{{ levelLabel(course.level) }} · {{ course.durationMins }} min</span>
         </button>
       </li>
