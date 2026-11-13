@@ -7,7 +7,7 @@ import { render, screen, waitFor, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { SEED_COURSES } from '../../testing/seed-courses';
-import { COURSES_API_URL } from '../course.service';
+import { TEST_COURSES_URL, testApiBaseUrlProvider } from '../../testing/test-api';
 import { CourseSearchComponent } from './course-search.component';
 
 /** Stands in for the detail page so navigation has somewhere to go. */
@@ -20,6 +20,7 @@ async function setup() {
     providers: [
       provideHttpClient(),
       provideHttpClientTesting(),
+      testApiBaseUrlProvider,
       provideRouter([{ path: 'courses/:id', component: DetailStubComponent }]),
     ],
   });
@@ -41,7 +42,7 @@ describe('CourseSearchComponent', () => {
     const { http } = await setup();
     expect(screen.getByRole('status')).toHaveTextContent('Loading courses…');
 
-    http.expectOne(COURSES_API_URL).flush(SEED_COURSES);
+    http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);
 
     expect(await shownCourses()).toHaveLength(6);
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
@@ -49,7 +50,7 @@ describe('CourseSearchComponent', () => {
 
   it('filters the list by the search text', async () => {
     const { user, http } = await setup();
-    http.expectOne(COURSES_API_URL).flush(SEED_COURSES);
+    http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);
 
     await user.type(await screen.findByRole('searchbox', { name: 'Search' }), 'core');
 
@@ -60,7 +61,7 @@ describe('CourseSearchComponent', () => {
 
   it('filters the list by level', async () => {
     const { user, http } = await setup();
-    http.expectOne(COURSES_API_URL).flush(SEED_COURSES);
+    http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);
 
     await user.selectOptions(screen.getByRole('combobox', { name: 'Level' }), 'Advanced');
 
@@ -72,7 +73,7 @@ describe('CourseSearchComponent', () => {
 
   it('shows "No courses found." when nothing matches', async () => {
     const { user, http } = await setup();
-    http.expectOne(COURSES_API_URL).flush(SEED_COURSES);
+    http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);
 
     await user.type(screen.getByRole('searchbox', { name: 'Search' }), 'zzz');
 
@@ -83,7 +84,7 @@ describe('CourseSearchComponent', () => {
     const { http } = await setup();
 
     http
-      .expectOne(COURSES_API_URL)
+      .expectOne(TEST_COURSES_URL)
       .flush('Server error', { status: 500, statusText: 'Internal Server Error' });
 
     expect(await screen.findByRole('alert')).toHaveTextContent('The server returned an error (500).');
@@ -91,7 +92,7 @@ describe('CourseSearchComponent', () => {
 
   it('opens the detail page when a course is clicked', async () => {
     const { user, http } = await setup();
-    http.expectOne(COURSES_API_URL).flush(SEED_COURSES);
+    http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);
 
     await user.click(await screen.findByRole('button', { name: /Entity Framework Core in Action/ }));
 

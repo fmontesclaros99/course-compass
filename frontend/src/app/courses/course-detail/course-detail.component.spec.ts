@@ -6,13 +6,13 @@ import { render, screen, within } from '@testing-library/angular';
 
 import { SEED_COURSES } from '../../testing/seed-courses';
 import { getCourseOrThrow } from '../../utils/course-utils';
-import { COURSES_API_URL } from '../course.service';
+import { TEST_COURSES_URL, testApiBaseUrlProvider } from '../../testing/test-api';
 import { CourseDetailComponent } from './course-detail.component';
 
 async function setup(id: string) {
   await render(CourseDetailComponent, {
     inputs: { id },
-    providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+    providers: [provideHttpClient(), provideHttpClientTesting(), testApiBaseUrlProvider, provideRouter([])],
   });
   return TestBed.inject(HttpTestingController);
 }
@@ -26,7 +26,7 @@ describe('CourseDetailComponent', () => {
     const http = await setup('c-106');
     expect(screen.getByRole('status')).toHaveTextContent('Loading course…');
 
-    http.expectOne(`${COURSES_API_URL}/c-106`).flush(getCourseOrThrow(SEED_COURSES, 'c-106'));
+    http.expectOne(`${TEST_COURSES_URL}/c-106`).flush(getCourseOrThrow(SEED_COURSES, 'c-106'));
 
     expect(
       await screen.findByRole('heading', { name: 'Entity Framework Core in Action' }),
@@ -40,14 +40,14 @@ describe('CourseDetailComponent', () => {
   it('shows "Course not found." on a 404', async () => {
     const http = await setup('c-999');
 
-    http.expectOne(`${COURSES_API_URL}/c-999`).flush(null, { status: 404, statusText: 'Not Found' });
+    http.expectOne(`${TEST_COURSES_URL}/c-999`).flush(null, { status: 404, statusText: 'Not Found' });
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Course not found.');
   });
 
   it('links back to the search page', async () => {
     const http = await setup('c-106');
-    http.expectOne(`${COURSES_API_URL}/c-106`).flush(getCourseOrThrow(SEED_COURSES, 'c-106'));
+    http.expectOne(`${TEST_COURSES_URL}/c-106`).flush(getCourseOrThrow(SEED_COURSES, 'c-106'));
 
     expect(screen.getByRole('link', { name: /Back to search/ })).toHaveAttribute('href', '/');
   });

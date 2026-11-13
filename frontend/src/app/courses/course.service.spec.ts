@@ -5,7 +5,8 @@ import { firstValueFrom } from 'rxjs';
 
 import { SEED_COURSES } from '../testing/seed-courses';
 import { getCourseOrThrow } from '../utils/course-utils';
-import { COURSES_API_URL, CourseService } from './course.service';
+import { TEST_COURSES_URL, testApiBaseUrlProvider } from '../testing/test-api';
+import { CourseService } from './course.service';
 
 describe('CourseService', () => {
   let service: CourseService;
@@ -13,7 +14,7 @@ describe('CourseService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), testApiBaseUrlProvider],
     });
     service = TestBed.inject(CourseService);
     httpTesting = TestBed.inject(HttpTestingController);
@@ -27,7 +28,7 @@ describe('CourseService', () => {
   it('gets the courses from GET /courses', async () => {
     const courses = firstValueFrom(service.getCourses());
 
-    const request = httpTesting.expectOne(COURSES_API_URL);
+    const request = httpTesting.expectOne(TEST_COURSES_URL);
     expect(request.request.method).toBe('GET');
     request.flush(SEED_COURSES);
 
@@ -38,7 +39,7 @@ describe('CourseService', () => {
     const expected = getCourseOrThrow(SEED_COURSES, 'c-106');
     const course = firstValueFrom(service.getCourse('c-106'));
 
-    const request = httpTesting.expectOne(`${COURSES_API_URL}/c-106`);
+    const request = httpTesting.expectOne(`${TEST_COURSES_URL}/c-106`);
     expect(request.request.method).toBe('GET');
     request.flush(expected);
 
@@ -49,7 +50,7 @@ describe('CourseService', () => {
     const courses = firstValueFrom(service.getCourses());
 
     httpTesting
-      .expectOne(COURSES_API_URL)
+      .expectOne(TEST_COURSES_URL)
       .flush('Server error', { status: 500, statusText: 'Internal Server Error' });
 
     await expect(courses).rejects.toMatchObject({ status: 500 });
