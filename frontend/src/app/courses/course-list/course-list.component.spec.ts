@@ -9,7 +9,7 @@ describe('CourseListComponent', () => {
     await render(CourseListComponent, { inputs: { courses: SEED_COURSES } });
 
     const rows = within(screen.getByRole('list', { name: 'Courses' })).getAllByRole('listitem');
-    expect(rows).toHaveLength(6);
+    expect(rows).toHaveLength(SEED_COURSES.length);
     expect(screen.getByRole('button', { name: /TypeScript 5 Fundamentals/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Entity Framework Core in Action/ })).toBeInTheDocument();
   });

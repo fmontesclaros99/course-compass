@@ -44,7 +44,7 @@ describe('CourseSearchComponent', () => {
 
     http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);
 
-    expect(await shownCourses()).toHaveLength(6);
+    expect(await shownCourses()).toHaveLength(SEED_COURSES.length);
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
 
