@@ -11,6 +11,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <!-- Legacy seed files, not compiled yet. Day 6 removes the CoursesController lines, Day 7 the CourseReportService lines. -->
   <ItemGroup>
     <Compile Remove="Controllers/CoursesController.cs" />
     <Compile Remove="Services/CourseReportService.cs" />
