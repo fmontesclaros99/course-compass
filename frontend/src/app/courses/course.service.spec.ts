@@ -3,9 +3,10 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
+import { ApiContractError } from '../models/api-contract';
 import { SEED_COURSES } from '../testing/seed-courses';
-import { getCourseOrThrow } from '../utils/course-utils';
 import { TEST_COURSES_URL, testApiBaseUrlProvider } from '../testing/test-api';
+import { getCourseOrThrow } from '../utils/course-utils';
 import { CourseService } from './course.service';
 
 describe('CourseService', () => {
@@ -54,5 +55,13 @@ describe('CourseService', () => {
       .flush('Server error', { status: 500, statusText: 'Internal Server Error' });
 
     await expect(courses).rejects.toMatchObject({ status: 500 });
+  });
+
+  it('rejects a course with a level the app does not know', async () => {
+    const courses = firstValueFrom(service.getCourses());
+
+    httpTesting.expectOne(TEST_COURSES_URL).flush([{ ...SEED_COURSES[0], level: 'expert' }]);
+
+    await expect(courses).rejects.toBeInstanceOf(ApiContractError);
   });
 });

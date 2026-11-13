@@ -36,3 +36,14 @@ export type ApiError =
       readonly fieldErrors: Readonly<Record<string, readonly string[]>>;
     }
   | { readonly kind: 'server'; readonly status: number; readonly message: string };
+
+/** The API responded, but a value breaks this contract (for example, an unknown course level). */
+export class ApiContractError extends Error {
+  constructor(
+    readonly field: string,
+    message: string,
+  ) {
+    super(message);
+    this.name = 'ApiContractError';
+  }
+}

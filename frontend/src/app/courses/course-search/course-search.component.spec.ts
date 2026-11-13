@@ -90,6 +90,14 @@ describe('CourseSearchComponent', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('The server returned an error (500).');
   });
 
+  it('shows an error instead of a blank level when the API sends an unknown level', async () => {
+    const { http } = await setup();
+
+    http.expectOne(TEST_COURSES_URL).flush([{ ...SEED_COURSES[0], level: 'expert' }]);
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('The server sent data the app cannot display.');
+  });
+
   it('opens the detail page when a course is clicked', async () => {
     const { user, http } = await setup();
     http.expectOne(TEST_COURSES_URL).flush(SEED_COURSES);

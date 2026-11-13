@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { type Observable, firstValueFrom, of, throwError, toArray } from 'rxjs';
 
+import { ApiContractError } from '../models/api-contract';
 import { toApiState } from './to-api-state';
 
 /** Collects every state the operator emits, in order. */
@@ -39,7 +40,20 @@ describe('toApiState', () => {
     expect(state).toMatchObject({ status: 'error', error: { kind: 'server', status: 500 } });
   });
 
-  it('rethrows errors that are not HTTP errors', async () => {
+  it('maps an ApiContractError to a validation error for that field', async () => {
+    const [, state] = await statesOf(throwError(() => new ApiContractError('level', 'Unknown level.')));
+
+    expect(state).toEqual({
+      status: 'error',
+      error: {
+        kind: 'validation',
+        message: 'The server sent data the app cannot display.',
+        fieldErrors: { level: ['Unknown level.'] },
+      },
+    });
+  });
+
+  it('rethrows errors that are not API errors', async () => {
     const bug = new TypeError('bug');
 
     await expect(statesOf(throwError(() => bug))).rejects.toBe(bug);
