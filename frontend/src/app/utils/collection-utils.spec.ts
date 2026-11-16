@@ -51,6 +51,8 @@ describe('collection-utils', () => {
       expect(filterBy(courses, 'level', 'expert')).toEqual([]);
       // @ts-expect-error 'rating' is not a key of Course
       expect(filterBy(courses, 'rating', 5)).toEqual([]);
+      // @ts-expect-error tags is an array, and === would compare it by reference
+      expect(filterBy(courses, 'tags', ['typescript'])).toEqual([]);
     });
   });
 

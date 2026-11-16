@@ -1,5 +1,12 @@
-/** Items whose `key` property equals `value`. `value` must have the type of that property. */
-export function filterBy<T, K extends keyof T>(items: readonly T[], key: K, value: T[K]): T[] {
+type Primitive = string | number | boolean | bigint | symbol | null | undefined;
+
+/** Keys of T whose values are primitives, so `===` compares values instead of references. */
+export type PrimitiveKeys<T> = {
+  [K in keyof T]-?: T[K] extends Primitive ? K : never;
+}[keyof T];
+
+/** Items whose `key` property equals `value`. Only primitive properties are allowed. */
+export function filterBy<T, K extends PrimitiveKeys<T>>(items: readonly T[], key: K, value: T[K]): T[] {
   return items.filter((item) => item[key] === value);
 }
 
