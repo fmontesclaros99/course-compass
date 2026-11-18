@@ -1,6 +1,57 @@
-@CourseCompass.Api_HostAddress = http://localhost:5258
+@host = http://localhost:5258
 
-GET {{CourseCompass.Api_HostAddress}}/weatherforecast/
+### List courses (200)
+GET {{host}}/api/courses
 Accept: application/json
 
-###
+### Get one course (200)
+GET {{host}}/api/courses/c-101
+Accept: application/json
+
+### Unknown course (404)
+GET {{host}}/api/courses/c-999
+Accept: application/json
+
+### Create a course (201)
+POST {{host}}/api/courses
+Content-Type: application/json
+
+{
+  "title": "Clean Architecture in ASP.NET Core",
+  "level": "advanced",
+  "durationMins": 180,
+  "author": "Internal",
+  "category": "backend",
+  "tags": ["aspnet-core", "architecture"]
+}
+
+### Invalid course (400)
+POST {{host}}/api/courses
+Content-Type: application/json
+
+{
+  "title": "",
+  "level": "expert",
+  "durationMins": 0,
+  "author": "Internal",
+  "category": "backend"
+}
+
+### Duplicate title (409)
+POST {{host}}/api/courses
+Content-Type: application/json
+
+{
+  "title": "TypeScript 5 Fundamentals",
+  "level": "beginner",
+  "durationMins": 60,
+  "author": "Internal",
+  "category": "language"
+}
+
+### Delete a course (204), then again (404)
+DELETE {{host}}/api/courses/c-106
+
+### List categories (200)
+GET {{host}}/api/categories
+Accept: application/json
