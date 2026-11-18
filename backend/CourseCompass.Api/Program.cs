@@ -1,4 +1,10 @@
+using CourseCompass.Api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// In-memory data until EF Core arrives on Day 7. Singletons, so the data lives as long as the app.
+builder.Services.AddSingleton<ICourseService, InMemoryCourseService>();
+builder.Services.AddSingleton<ICategoryService, InMemoryCategoryService>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
