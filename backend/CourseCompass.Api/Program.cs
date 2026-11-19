@@ -1,47 +1,41 @@
+using CourseCompass.Api.Services;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// In-memory data until EF Core arrives on Day 7. Singletons, so the data lives as long as the app.
+builder.Services.AddSingleton<ICourseService, InMemoryCourseService>();
+builder.Services.AddSingleton<ICategoryService, InMemoryCategoryService>();
+
+// Validation errors use the JSON property names ("title", not "Title"), matching the frontend's fieldErrors.
+builder.Services.AddControllers(options =>
+    options.ModelMetadataDetailsProviders.Add(new SystemTextJsonValidationMetadataProvider()));
+
+// Every error response (400, 404, 409, 500) is a ProblemDetails body.
+builder.Services.AddProblemDetails();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// First in the pipeline, so it catches exceptions from everything after it: logs them and returns a 500 ProblemDetails.
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-if (!app.Environment.IsDevelopment())
+else
 {
     app.UseHttpsRedirection();
 }
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.MapControllers();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+// Lets the test project start the API with WebApplicationFactory<Program>.
+public partial class Program;

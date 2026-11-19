@@ -1,60 +1,44 @@
-﻿// CoursesController.cs — LEGACY MODULE (seeded into the training repo on Day 1)
-// Purpose: Day 6 ASP.NET Core drill target. Seed exactly as-is, WITHOUT any flaw-tagged comments.
-// The scoring key lives in em-provided-items/README.md#day-6 (EM ONLY).
-// Early visibility of the code is acceptable: it is her codebase from Day 1, and the
-// measurement on Day 6 is the fix plus the PR review, not surprise.
-
+﻿using CourseCompass.Api.Models;
+using CourseCompass.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CourseCompass.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class CoursesController : ControllerBase
+[Route("api/courses")]
+public sealed class CoursesController(ICourseService courses) : ControllerBase
 {
-    private readonly CourseCompassDbContext _db;
-
-    public CoursesController(CourseCompassDbContext db)
-    {
-        _db = db;
-    }
-
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<IReadOnlyList<CourseDto>>> GetCourses(CancellationToken cancellationToken)
     {
-        var courses = _db.Courses.ToList();
-        return Ok(courses);
+        return Ok(await courses.GetCoursesAsync(cancellationToken));
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(string id)
+    public async Task<ActionResult<CourseDto>> GetCourse(string id, CancellationToken cancellationToken)
     {
-        var course = _db.Courses.Where(c => c.Id == id).FirstOrDefault();
-        return Ok(course);
+        var course = await courses.GetCourseAsync(id, cancellationToken);
+        return course is null ? NotFound() : Ok(course);
     }
 
     [HttpPost]
-    public IActionResult Create(Course course)
+    public async Task<ActionResult<CourseDto>> CreateCourse(CreateCourseDto course, CancellationToken cancellationToken)
     {
-        try
+        var created = await courses.CreateCourseAsync(course, cancellationToken);
+        if (created is null)
         {
-            _db.Courses.Add(course);
-            _db.SaveChangesAsync().Wait();
-            return Ok(course);
+            return Problem(
+                statusCode: StatusCodes.Status409Conflict,
+                title: "Course already exists",
+                detail: $"A course titled '{course.Title.Trim()}' already exists.");
         }
-        catch (Exception)
-        {
-            return Ok(new { message = "something went wrong" });
-        }
+
+        return CreatedAtAction(nameof(GetCourse), new { id = created.Id }, created);
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(string id)
+    public async Task<IActionResult> DeleteCourse(string id, CancellationToken cancellationToken)
     {
-        var course = _db.Courses.Find(id);
-        _db.Courses.Remove(course);
-        _db.SaveChanges();
-        return Ok("deleted");
+        return await courses.DeleteCourseAsync(id, cancellationToken) ? NoContent() : NotFound();
     }
 }
