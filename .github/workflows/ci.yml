@@ -39,3 +39,5 @@ jobs:
           dotnet-version: '8.0.x'
       - run: dotnet restore backend/CourseCompass.sln
       - run: dotnet build backend/CourseCompass.sln --no-restore --configuration Release
+      - name: Tests
+        run: dotnet test backend/CourseCompass.sln --no-build --configuration Release
