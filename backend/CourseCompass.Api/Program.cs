@@ -36,3 +36,6 @@ else
 app.MapControllers();
 
 app.Run();
+
+// Lets the test project start the API with WebApplicationFactory<Program>.
+public partial class Program;
